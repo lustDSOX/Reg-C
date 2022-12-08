@@ -12,7 +12,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	{
 		WCHAR text [256];
 		DWORD size = sizeof(WCHAR) * 256;
-		if (RegGetValueW(hMyKey, NULL, NULL, RRF_RT_ANY, NULL, text,&size ) == ERROR_SUCCESS)
+		if (RegGetValueW(hMyKey, NULL, NULL, RRF_RT_REG_SZ, NULL, text,&size ) == ERROR_SUCCESS)
 		{
 			MessageBoxW(NULL, text, L"YES", MB_OK);
 		}
