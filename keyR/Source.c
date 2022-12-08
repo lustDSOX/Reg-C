@@ -6,12 +6,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	RegOpenKeyW(HKEY_CURRENT_USER, NULL, &hkey);
 	if (RegCreateKeyW(hkey, L"MyKey", &hMyKey) == ERROR_SUCCESS)
 	{
-		MessageBoxW(NULL, L"Раздел создан", L"YES", MB_OK);
+		//MessageBoxW(NULL, L"Раздел создан", L"YES", MB_OK);
 	}
 	if (RegSetValueW(hMyKey, NULL, REG_SZ, L"Message", 8 * sizeof(WCHAR)) == ERROR_SUCCESS)
 	{
-		LPWSTR text = calloc(256, 1);
-		if (RegGetValueW(hMyKey, NULL, NULL, REG_SZ, REG_SZ, text, sizeof(LPWSTR)) == ERROR_SUCCESS)
+		WCHAR text [256];
+		DWORD size = sizeof(WCHAR) * 256;
+		if (RegGetValueW(hMyKey, NULL, NULL, RRF_RT_ANY, NULL, text,&size ) == ERROR_SUCCESS)
 		{
 			MessageBoxW(NULL, text, L"YES", MB_OK);
 		}
