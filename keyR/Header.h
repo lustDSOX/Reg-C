@@ -3,11 +3,13 @@
 #include <Windows.h>
 #include <stdio.h>
 
-HANDLE hConsole;
-
+CONSOLE_FONT_INFOEX cfi;
+HKEY hkey;
+HKEY hMyKey;
 
 void GetSettings();
 void SetFontSize();
 void SetFontColor();
 void SetBackground();
+void ClearConsoleToColors(int ForgC, int BackC);
 void SetFontType();

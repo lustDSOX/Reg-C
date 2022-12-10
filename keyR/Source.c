@@ -1,56 +1,63 @@
 #include "Header.h"
 
 main() {
-	system("chcp 1251>nul");
-	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO csb;
-	GetConsoleScreenBufferInfo(hConsole, &csb);
-	printf("%s", "aboba\n");
-	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-	SHORT a = 12;
-	COORD CORD = { a,a };
-	csb.dwSize = CORD;
-	printf("%s", "aboba\n");
-	SetConsoleTextAttribute(hConsole, csb.wAttributes);
-	//HKEY hkey;
-	//HKEY hMyKey;
-	//RegOpenKeyW(HKEY_CURRENT_USER, NULL, &hkey);
-	//if (RegCreateKeyW(hkey, L"MyKey", &hMyKey) == ERROR_SUCCESS)
-	//{
-	//	//MessageBoxW(NULL, L"Раздел создан", L"YES", MB_OK);
-	//}
-	//if (RegSetValueW(hMyKey, NULL, REG_SZ, L"Message", 8 * sizeof(WCHAR)) == ERROR_SUCCESS)
-	//{
-	//	WCHAR text [256];
-	//	DWORD size = sizeof(WCHAR) * 256;
-	//	if (RegGetValueW(hMyKey, NULL, NULL, RRF_RT_REG_SZ, NULL, text,&size ) == ERROR_SUCCESS)
-	//	{
-	//		MessageBoxW(NULL, text, L"YES", MB_OK);
-	//	}
+    SetConsoleCP(1251);            
+    SetConsoleOutputCP(1251);
+    RegOpenKeyW(HKEY_CURRENT_USER, NULL, &hkey);
+    RegCreateKeyW(hkey, L"MyKey", &hMyKey);
+	ClearConsoleToColors(1, 10);
+	printf("%s", "sdgsdg\n");
 
-	//}
-	//return 0;
+    cfi.cbSize = sizeof cfi;
+    cfi.nFont = 0;
+    cfi.dwFontSize.X = 0;
+    cfi.dwFontSize.Y = 16;
+    cfi.FontFamily = FF_DONTCARE;
+    cfi.FontWeight = FW_NORMAL;
+    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+    printf("%s", "sdgsdg\n");
+
+    DWORD st = 900;
+    SetFontType(st);
+    GetSettings();
 }
 
 
+void ClearConsoleToColors(int ForgC, int BackC)
+{
+    WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD coord = { 0, 0 };
+    DWORD count;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    SetConsoleTextAttribute(hStdOut, wColor);
+    if (GetConsoleScreenBufferInfo(hStdOut, &csbi))
+    {
+        FillConsoleOutputCharacter(hStdOut, (TCHAR)32
+            , csbi.dwSize.X * csbi.dwSize.Y, coord, &count);
 
+        FillConsoleOutputAttribute(hStdOut, csbi.wAttributes
+            , csbi.dwSize.X+12 * csbi.dwSize.Y + 12, coord, &count);
+        SetConsoleCursorPosition(hStdOut, coord);
+    }
+    return;
+}
 
 void GetSettings() {
-
+    DWORD style;
+    DWORD size = sizeof(DWORD);
+    if (RegGetValueW(hMyKey, NULL, L"style", RRF_RT_REG_DWORD, NULL, &style,&size ) == ERROR_SUCCESS)
+    {
+        MessageBoxW(NULL, style, L"YES", MB_OK);
+    }
 }
 
 void SetFontSize() {
 
 }
 
-void SetFontColor() {
-
-}
-
-void SetBackground() {
-
-}
-
-void SetFontType() {
-
+void SetFontType(DWORD st) {
+    if (RegSetValueW(hMyKey, L"style", REG_DWORD, (const BYTE*)&st, sizeof(st)) == ERROR_SUCCESS) {
+        MessageBoxW(NULL, L"da", L"YES", MB_OK);
+    };
 }
