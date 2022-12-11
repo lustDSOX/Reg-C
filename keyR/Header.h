@@ -4,7 +4,6 @@
 #include <stdio.h>
 
 CONSOLE_FONT_INFOEX cfi;
-HKEY hkey;
 HKEY hMyKey;
 
 void GetSettings();

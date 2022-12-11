@@ -3,9 +3,8 @@
 main() {
     SetConsoleCP(1251);            
     SetConsoleOutputCP(1251);
-    RegOpenKeyW(HKEY_CURRENT_USER, NULL, &hkey);
-    RegCreateKeyW(hkey, L"MyKey", &hMyKey);
-	ClearConsoleToColors(1, 10);
+    RegCreateKeyW(HKEY_CURRENT_USER, L"MyKey", &hMyKey);
+	/*ClearConsoleToColors(1, 10);
 	printf("%s", "sdgsdg\n");
 
     cfi.cbSize = sizeof cfi;
@@ -15,7 +14,7 @@ main() {
     cfi.FontFamily = FF_DONTCARE;
     cfi.FontWeight = FW_NORMAL;
     SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
-    printf("%s", "sdgsdg\n");
+    printf("%s", "sdgsdg\n");*/
 
     DWORD st = 900;
     SetFontType(st);
@@ -45,10 +44,10 @@ void ClearConsoleToColors(int ForgC, int BackC)
 
 void GetSettings() {
     DWORD style;
-    DWORD size = sizeof(DWORD);
-    if (RegGetValueW(hMyKey, NULL, L"style", RRF_RT_REG_DWORD, NULL, &style,&size ) == ERROR_SUCCESS)
+    DWORD size = sizeof(style);
+    if (RegGetValueW(hMyKey, NULL, L"style", RRF_RT_DWORD, NULL, (LPBYTE) &style, &size) == ERROR_SUCCESS)
     {
-        MessageBoxW(NULL, style, L"YES", MB_OK);
+        MessageBoxW(NULL, style, L"get", MB_OK);
     }
 }
 
@@ -57,7 +56,7 @@ void SetFontSize() {
 }
 
 void SetFontType(DWORD st) {
-    if (RegSetValueW(hMyKey, L"style", REG_DWORD, (const BYTE*)&st, sizeof(st)) == ERROR_SUCCESS) {
-        MessageBoxW(NULL, L"da", L"YES", MB_OK);
+    if (RegSetValueEx(hMyKey, L"style", 0, REG_DWORD, (const BYTE*)&st, sizeof(st)) == ERROR_SUCCESS) {
+        MessageBoxW(NULL, L"da", L"set", MB_OK);
     };
 }
