@@ -4,11 +4,13 @@
 #include <stdio.h>
 
 CONSOLE_FONT_INFOEX cfi;
+
 HKEY hMyKey;
+DWORD BackGround = 0;
+DWORD ForeGround = 0;
 
 void GetSettings();
 void SetFontSize();
-void SetFontColor();
-void SetBackground();
-void ClearConsoleToColors(int ForgC, int BackC);
-void SetFontType();
+void SetColor(int, int);
+void SetFontType(DWORD);
+void SetSettings();
